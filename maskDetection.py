@@ -87,7 +87,7 @@ model.add(keras.layers.Conv2D(64, kernel_size=(3, 3), activation='relu'))
 model.add(keras.layers.Conv2D(128, kernel_size=(3, 3), activation='relu'))
 model.add(keras.layers.Flatten())
 model.add(keras.layers.Dense(128, activation='relu'))
-model.add(keras.layers.Dense(1, activation='sigmoid'))
+model.add(keras.layers.Dense(16, activation='sigmoid'))
 print("compiling model")
 
 # compile model
