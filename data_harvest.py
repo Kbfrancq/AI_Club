@@ -54,4 +54,4 @@ for filename in os.listdir(mask_mp4_path):
         
 #console output done when done
 print("Converted ", videos, " videos to ", pictures, " pictures.")
-print("The images with mask are in ", mask_mp4_path, " and the images without mask are in ", non_mp4_path, " folder." 
+print("The images with mask are in ", mask_mp4_path, " and the images without mask are in ", non_mp4_path, " folder.")
