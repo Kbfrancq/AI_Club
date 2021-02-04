@@ -29,7 +29,7 @@ def getFrame(vid,folderPath,filename,sec,count):
         cv2.imwrite(folderPath+"\\"+filename+str(count)+".jpg", image)     # save frame as JPG file
     return hasFrames
 
-def convert(fp,fileName,end):
+def convert(fp,fileName,end,videos,pictures):
     sec = 0
     frameRate = 0.5       #Make number number lower to capture more frames, right not it is at one frame every half a second
     count=1
@@ -44,14 +44,15 @@ def convert(fp,fileName,end):
         sec = sec + frameRate
         sec = round(sec, 2)
         success = getFrame(vidcap,end,fileName,sec,count)
+    return videos, pictures
             
 #runs the conversion for all mp4 files in the non_mp4_path folder
 for filename in os.listdir(non_mp4_path):
-    convert(non_mp4_path + "\\",filename, non_jpg_path)
+    videos, pictures = convert(non_mp4_path + "\\",filename, non_jpg_path,videos,pictures)
 #runs the conversion for all mp4 files in the mask_mp4_path folder#runs the conversion for all mp4 files in the non_mp4_path folder
 for filename in os.listdir(mask_mp4_path):
-    convert(mask_mp4_path + "\\",filename, mask_jpg_path)
+    videos, pictures = convert(mask_mp4_path + "\\",filename, mask_jpg_path,videos,pictures)
         
 #console output done when done
 print("Converted ", videos, " videos to ", pictures, " pictures.")
-print("The images with mask are in ", mask_mp4_path, " and the images without mask are in ", non_mp4_path, " folder.")
+print("The images with mask are in ", mask_mp4_path, " and the images without mask are in ", non_mp4_path, " folder." )
