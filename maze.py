@@ -1,6 +1,64 @@
 import pygame
+import numpy as np
 import math
 
+class Node:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+
+stack = []
+dimension = 30
+maze = np.zeros((dimension,dimension))
+
+def generateMaze():
+    stack.append(Node(0,0))
+    while(len(stack)!=0):
+        next = stack.pop()
+        if(validNext(next)):
+            maze[next.y][next.x] = 1
+            neighbors = findNeighbors(next)
+            randomlyAddToStack(neighbors)        
+
+
+def validNext(node):
+    NumOnes = 0
+    for y in range(node.y -1, node.y +2):
+        for x in range(node.x -1, node.x +2):
+            if(pointOnGrid(x,y) and pointNotNode(node,x,y) and maze[y][x]==1):
+                NumOnes+=1
+    return((NumOnes <3) and not maze[node.y][node.x] == 1)
+
+
+
+
+def findNeighbors(node):
+    neighbors = []
+    for y in range(node.y -1, node.y +2):
+        for x in range(node.x -1, node.x +2):
+            if (pointOnGrid(x, y) and pointNotCorner(node, x, y) and pointNotNode(node, x, y)):
+                neighbors.append(Node(x, y))
+    return neighbors
+
+
+
+def randomlyAddToStack(nodes):
+    target = 0
+    while(len(nodes) != 0):
+        target = np.random.randint(len(nodes))
+        stack.append(nodes.pop(target))
+
+def pointOnGrid(x,y):
+    return (x >= 0 and y >= 0 and x < dimension and y < dimension)
+
+def pointNotNode(node, x,y):
+    return (not(x == node.x and y == node.y))
+
+def pointNotCorner(node, x,y):
+    return (x == node.x or y == node.y)
+
+generateMaze()
 WIDTH = 1000
 WIN = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("ML Maze")
@@ -9,7 +67,6 @@ pygame.display.set_caption("ML Maze")
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
-maze = [[0,1,0,1,0,1,0,1,0,1],[0,1,0,1,0,1,0,1,0,1],[0,1,0,1,0,1,0,1,0,1],[0,1,0,1,0,1,0,1,0,1],[0,1,0,1,0,1,0,1,0,1]]
 
 class Spot:
 	def __init__(self, row, col, width, total_rows):
@@ -141,7 +198,6 @@ def main(win, width, maze):
 
 
 	pygame.quit()
-
 
 
 main(WIN, WIDTH, maze)
